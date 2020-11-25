@@ -41,8 +41,6 @@ let routers = [{
   },
 ]
 let router = new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
   routes: routers,
 })
 const whiteList = ['/login'] // 不需要重定向的页
