@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index.js'
+import Cookie from '@/Cookie'
 
 const LOGIN = true // 是否加登录功能
 
@@ -54,7 +55,12 @@ if (LOGIN) {
     // 调用 next() 方法，进入下一个路由
     let token = ''
     try {
-      let userInfo = JSON.parse(sessionStorage.userInfo) // 将 sessionStorage 字符串解析为对象
+      let userInfo = {}
+      if (sessionStorage.storageType === 'cookie') {
+        userInfo = JSON.parse(Cookie.getCookie('userInfo'))
+      } else {
+        userInfo = JSON.parse(sessionStorage.userInfo)
+      }
       // 防止刷新页面 vuex 中的用户信息清除，将 sessionStorage 中的用户信息再存储到 vuex 中
       store.dispatch('setUserInfo', userInfo)
       token = userInfo.token
